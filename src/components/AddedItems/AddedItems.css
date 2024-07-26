@@ -1,4 +1,4 @@
-.added-items-main{
+ .added-items-main {
   width: 99vw;
   min-height: 100vh;
   height: auto;
@@ -10,6 +10,7 @@
   font-weight: 400;
   font-size: medium;
 }
+
 .header {
   display: flex;
   align-items: center;
@@ -17,33 +18,37 @@
   width: 99vw;
   justify-content: center;
 }
+
 .menu-icon {
   margin-right: 10px;
   cursor: pointer;
   width: 30px;
 }
 
-.items-details-navbar-name{
+.items-details-navbar-name {
   width: 75vw;
   text-align: center;
 }
+
 .home-icon {
   width: 30px;
   margin-left: 10px;
   cursor: pointer;
 }
 
-
 .added-items {
   padding: 0 20px;
 }
+
 .added-items ul {
   list-style-type: none;
   padding-left: 0;
 }
+
 .added-items h2 {
   margin-bottom: 20px;
 }
+
 .added-item {
   display: flex;
   align-items: center;
@@ -54,12 +59,12 @@
   background-color: rgb(200, 221, 233);
   padding: 10px;
 }
+
 .added-item-image {
   width: 100px;
   height: 100px;
   object-fit: cover;
   border-radius: 50%;
-
 }
 
 .added-item-info {
@@ -71,7 +76,9 @@
   margin-left: 0.4rem;
   width: 100%;
 }
-.added-item-info h3,p{
+
+.added-item-info h3,
+p {
   margin: 0;
 }
 
@@ -79,7 +86,6 @@
   display: flex;
   align-items: center;
   margin: 5px 0px;
-
 }
 
 .quantity-controls button {
@@ -90,32 +96,46 @@
   margin: 0 10px;
 }
 
-.added-item-edit{
+.added-item-edit {
   width: 100px;
   background: transparent;
   border: none;
 }
-.added-item-edit img{
-  width:60%;
+
+.added-item-edit img {
+  width: 60%;
 }
-.added-item-edit + button > img{
+
+.added-item-edit + button > img {
   width: 80%;
 }
-.delete-button{
+
+.delete-button {
   border: none;
   width: 100px;
   background-color: transparent;
 }
 
-.total-cost{
+.total-cost {
   text-align: end;
 }
 
-.go-back{
+.go-back {
   padding: 0.5rem 0.8rem;
   border-radius: 20px;
   border: none;
   margin: 0.5rem;
-  
 }
 
+.your-orders {
+  margin-top: 20px;
+  padding: 0 20px;
+}
+
+.order-item {
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #000;
+  border-radius: 10px;
+  background-color: #e0e0e0;
+}

@@ -1,13 +1,30 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 
 const AddedItemsContext = createContext();
 
-export const useAddedItems = () => {
-  return useContext(AddedItemsContext);
-};
+export const useAddedItems = () => useContext(AddedItemsContext);
 
 export const AddedItemsProvider = ({ children }) => {
-  const [addedItems, setAddedItems] = useState([]);
+  const [addedItems, setAddedItems] = useState(() => {
+    const savedItems = sessionStorage.getItem('addedItems');
+    if (savedItems) {
+      const { items, timestamp } = JSON.parse(savedItems);
+      const currentTime = new Date().getTime();
+      const timeElapsed = currentTime - timestamp;
+
+      if (timeElapsed < 24 * 60 * 60 * 1000) {
+        return items;
+      } else {
+        sessionStorage.removeItem('addedItems');
+      }
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    const timestamp = new Date().getTime();
+    sessionStorage.setItem('addedItems', JSON.stringify({ items: addedItems, timestamp }));
+  }, [addedItems]);
 
   const addItem = (item, count) => {
     setAddedItems(prevItems => {
@@ -35,12 +52,17 @@ export const AddedItemsProvider = ({ children }) => {
     setAddedItems(prevItems => prevItems.filter(item => item.id !== itemId));
   };
 
+  const clearItems = () => {
+    setAddedItems([]);
+    sessionStorage.removeItem('addedItems');
+  };
+
   const isItemAdded = (itemId) => {
     return addedItems.some(item => item.id === itemId);
   };
 
   return (
-    <AddedItemsContext.Provider value={{ addedItems, addItem, removeItem, isItemAdded, updateItemCount }}>
+    <AddedItemsContext.Provider value={{ addedItems, addItem, removeItem, isItemAdded, updateItemCount, clearItems }}>
       {children}
     </AddedItemsContext.Provider>
   );
