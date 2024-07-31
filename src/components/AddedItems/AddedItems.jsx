@@ -78,6 +78,8 @@ const AddedItems = () => {
     const dishes = addedItems.map(item => ({
       name: item.name,
       quantity: item.count,
+      image: item.image, // Ensure this is included
+      price: item.price   // Ensure this is included
     }));
 
     const orderData = {
@@ -98,7 +100,7 @@ const AddedItems = () => {
 
       if (response.ok) {
         console.log('Order sent successfully');
-        setOrders(prevOrders => [...prevOrders, ...addedItems]);
+        setOrders(prevOrders => [...addedItems, ...prevOrders]); // New orders on top
         clearItems();
       } else {
         console.error('Failed to send order');
@@ -107,6 +109,19 @@ const AddedItems = () => {
       console.error('Error sending order:', error);
     }
   };
+
+  // Calculate total cost of orders
+  const ordersTotalCost = orders.reduce((acc, item) => {
+    const price = parseFloat(item.price.replace(/[^0-9.-]+/g, ''));
+    const count = parseInt(item.count, 10);
+
+    if (!isNaN(price) && !isNaN(count)) {
+      return acc + (price * count);
+    } else {
+      console.warn(`Invalid price or count for item: ${item.name}`);
+      return acc;
+    }
+  }, 0);
 
   return (
     <>
@@ -166,26 +181,34 @@ const AddedItems = () => {
           {orders.length === 0 ? (
             <p>No orders placed yet...</p>
           ) : (
-            <ul>
-              {orders.map((item, index) => (
-                <li key={index}>
-                  <div className="order-item">
-                    <h3>{item.name}</h3>
-                    <p>Quantity: {item.count}</p>
-                  </div>
-                </li>
-              ))}
-            </ul>
+            <>
+              <ul>
+                {orders.map((item, index) => (
+                  <li key={index}>
+                    <div className="order-item">
+                      <img
+                        src={item.image}
+                        alt={item.name}
+                        className="order-item-image" // Add styling for image
+                      />
+                      <div className="order-item-info">
+                        <h3>{item.name}</h3>
+                        <p>Quantity: {item.count}</p>
+                      </div>
+                    </div>
+                  </li>
+                ))}
+              </ul>
+              <div className="orders-total-cost">
+                <h3>Total Amount: ${ordersTotalCost.toFixed(2)}</h3>
+              </div>
+            </>
           )}
         </div>
       </div>
-      <Footer></Footer>
+      <Footer />
     </>
   );
 };
 
 export default AddedItems;
-
-
-
-
